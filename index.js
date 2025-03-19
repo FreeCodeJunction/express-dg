@@ -1,6 +1,7 @@
+import "dotenv/config";
 import express from "express";
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -32,10 +33,11 @@ app.get("/teas/:id", (req, res) => {
 app.put("/teas/:id", (req, res) => {
   const index = teaData.findIndex((tea) => tea.id === Number(req.params.id));
   console.log("server listened");
+  console.log(req.body);
   if (index === -1) {
     return res.status(404).send("Tea not Found");
   }
-  console.log(req.body);
+
   teaData[index] = { ...teaData[index], ...req.body };
   res.status(200).send(teaData[index]);
   return;
